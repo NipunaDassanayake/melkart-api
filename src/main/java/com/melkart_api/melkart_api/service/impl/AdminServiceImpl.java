@@ -26,7 +26,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin createAdmin(AdminRequestDTO adminRequestDTO) {
-        validateAdminRequest(adminRequestDTO);
 
         try {
             Admin admin = new Admin();
@@ -68,7 +67,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin updateAdmin(Long id, AdminUpdateRequestDTO adminUpdateRequestDTO) {
-        validateAdminUpdateRequest(adminUpdateRequestDTO);
 
         try {
             Admin admin = adminRepository.findById(id)
@@ -121,33 +119,5 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
-    private void validateAdminRequest(AdminRequestDTO adminRequestDTO) {
-        if (adminRequestDTO == null) {
-            throw new IllegalArgumentException("Admin request data cannot be null");
-        }
-        if (!StringUtils.hasText(adminRequestDTO.getName())) {
-            throw new IllegalArgumentException("Admin name cannot be empty or null");
-        }
-        if (!StringUtils.hasText(adminRequestDTO.getEmail())) {
-            throw new IllegalArgumentException("Admin email cannot be empty or null");
-        }
-        if (!StringUtils.hasText(adminRequestDTO.getPassword())) {
-            throw new IllegalArgumentException("Admin password cannot be empty or null");
-        }
-    }
 
-    private void validateAdminUpdateRequest(AdminUpdateRequestDTO adminUpdateRequestDTO) {
-        if (adminUpdateRequestDTO == null) {
-            throw new IllegalArgumentException("Admin update request data cannot be null");
-        }
-        if (!StringUtils.hasText(adminUpdateRequestDTO.getName())) {
-            throw new IllegalArgumentException("Admin name cannot be empty or null");
-        }
-        if (!StringUtils.hasText(adminUpdateRequestDTO.getEmail())) {
-            throw new IllegalArgumentException("Admin email cannot be empty or null");
-        }
-        if (!StringUtils.hasText(adminUpdateRequestDTO.getPassword())) {
-            throw new IllegalArgumentException("Admin password cannot be empty or null");
-        }
-    }
 }

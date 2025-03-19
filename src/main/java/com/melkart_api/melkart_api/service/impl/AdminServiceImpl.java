@@ -2,6 +2,7 @@ package com.melkart_api.melkart_api.service.impl;
 
 import com.melkart_api.melkart_api.controller.dto.request.AdminRequestDTO;
 import com.melkart_api.melkart_api.controller.dto.request.AdminUpdateRequestDTO;
+import com.melkart_api.melkart_api.controller.dto.response.GetAdminByIdDTO;
 import com.melkart_api.melkart_api.controller.dto.response.GetAllAdminsDTO;
 import com.melkart_api.melkart_api.exceptions.AdminNotFoundException;
 import com.melkart_api.melkart_api.model.Admin;
@@ -49,8 +50,10 @@ public class AdminServiceImpl implements AdminService {
             return admins.stream()
                     .map(admin -> {
                         GetAllAdminsDTO getAllAdminsDTO = new GetAllAdminsDTO();
+                        getAllAdminsDTO.setId(admin.getId());
                         getAllAdminsDTO.setEmail(admin.getEmail());
                         getAllAdminsDTO.setName(admin.getName());
+
                         return getAllAdminsDTO;
                     })
                     .collect(Collectors.toList());
@@ -99,10 +102,16 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Admin getAdminById(Long id) {
+    public GetAdminByIdDTO getAdminById(Long id) {
         try {
-            return adminRepository.findById(id)
+           Admin admin =  adminRepository.findById(id)
                     .orElseThrow(() -> new AdminNotFoundException("Admin not found with id: " + id));
+            GetAdminByIdDTO getAdminByIdDTO = new GetAdminByIdDTO();
+            getAdminByIdDTO.setId(admin.getId());
+            getAdminByIdDTO.setEmail(admin.getEmail());
+            getAdminByIdDTO.setName(admin.getName());
+            return getAdminByIdDTO;
+
         } catch (DataAccessException e) {
             logger.error("Failed to retrieve admin by id due to database error: {}", e.getMessage(), e);
             throw new RuntimeException("Failed to retrieve admin by id due to database error", e);

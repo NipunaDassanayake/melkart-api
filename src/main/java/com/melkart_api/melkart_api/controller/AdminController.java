@@ -2,6 +2,7 @@ package com.melkart_api.melkart_api.controller;
 
 import com.melkart_api.melkart_api.controller.dto.request.AdminRequestDTO;
 import com.melkart_api.melkart_api.controller.dto.request.AdminUpdateRequestDTO;
+import com.melkart_api.melkart_api.controller.dto.response.GetAdminByIdDTO;
 import com.melkart_api.melkart_api.controller.dto.response.GetAllAdminsDTO;
 import com.melkart_api.melkart_api.model.Admin;
 import com.melkart_api.melkart_api.service.AdminService;
@@ -34,15 +35,19 @@ public class AdminController {
         return new ResponseEntity<>(admins, HttpStatus.OK);
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public void deleteAdmin(@PathVariable Long id){
         adminService.deleteAdmin(id);
     }
 
-    @PutMapping("/id")
+    @PutMapping("/{id}")
     public ResponseEntity<Admin> updateAdmin(@PathVariable Long id, @RequestBody AdminUpdateRequestDTO adminUpdateRequestDTO) {
          Admin admin1 = adminService.updateAdmin(id, adminUpdateRequestDTO);
         return ResponseEntity.ok(admin1);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<GetAdminByIdDTO> getAdminById (@PathVariable Long id){
+        return ResponseEntity.ok(adminService.getAdminById(id));
     }
 }
 

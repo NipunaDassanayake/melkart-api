@@ -1,0 +1,30 @@
+version: "3.7"
+
+services:
+  melkart-api:
+    image: "melkart-app:v1"
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - melkart_network
+    depends_on:
+      - melkart-mysql
+
+  melkart-mysql:
+    image: "mysql:8.0"
+    container_name: "melkart-mysql-service"
+    restart: always
+    ports:
+      - "3303:3306"
+    networks:
+      - melkart_network
+    environment:
+      MYSQL_ROOT_PASSWORD: root1
+
+
+networks:
+  melkart_network:
